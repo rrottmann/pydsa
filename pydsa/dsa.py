@@ -269,16 +269,3 @@ def dsa_verify(s1, s2, g, p, q, y, message):
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
-    # message = "test"
-    # m = hashlib.sha1()
-    # m.update(message)
-    # sha1 = int("0x" + m.hexdigest(), 0)
-    # print sha1
-    # # sha1=3 ##delme
-    # if dsa_key == None:
-    #     dsa_key = dsa_keygen()
-    # sig = dsa_sign(dsa_key["Q"], dsa_key["P"], dsa_key["G"], dsa_key["priv"], sha1)
-    # #sig = dsa_sign(11, 23, 4, 7, sha1)
-    # #print dsa_verify(sig[0], sig[1], 4, 23, 11, 8, 3) #test
-    # #s1, s2, g, p, q, pub,  message
-    # print dsa_verify(sig[0], sig[1], dsa_key["G"], dsa_key["P"], dsa_key["Q"], dsa_key["pub"], sha1)
