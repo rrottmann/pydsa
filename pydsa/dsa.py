@@ -10,8 +10,6 @@ import random
 import hashlib
 import subprocess
 
-import time
-
 
 # Example DSA keypair - real world
 dsa_key = {
