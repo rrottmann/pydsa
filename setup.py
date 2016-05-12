@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     name='pydsa',
-    version='0.11',
+    version='0.12',
     description='Python DSA library',
     author='Reiner Rottmann',
     author_email='reiner@rottmann.it',
