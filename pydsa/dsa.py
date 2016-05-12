@@ -7,8 +7,6 @@ Released under the MIT license.
 """
 import os
 import random
-import hashlib
-import subprocess
 
 
 # Example DSA keypair - real world
@@ -35,7 +33,13 @@ def _random_s(min, max):
     :param max: largest random number
     :return: random number
     """
-    return random.randint(min, max)
+    s = -1
+    digits = random.randint(0, len(str(max)))
+    while True:
+        s = int(''.join(str(x) for x in map(ord, os.urandom(digits))))
+        if s <= max and s >= 0:
+            break
+    return s
 
 
 def _mod_inverse(a, b):
