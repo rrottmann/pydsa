@@ -34,10 +34,13 @@ def _random_s(min, max):
     :return: random number
     """
     s = -1
-    digits = random.randint(0, len(str(max)))
+    digits = random.randint(len(str(min)), len(str(max)))
     while True:
-        s = int(''.join(str(x) for x in map(ord, os.urandom(digits))))
-        if s <= max and s >= 0:
+        u = map(ord, os.urandom(digits))
+        if u == None:
+            continue
+        s = int(''.join(str(x) for x in u)[:digits])
+        if s <= max and s >= min:
             break
     return s
 
