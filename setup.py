@@ -20,7 +20,7 @@ setup(
           "Intended Audience :: Developers",
           "Topic :: Internet",
     ],
-    keywords='networking eventlet nonblocking internet',
+    keywords='crypto, DSA, signature',
     license='MIT License, see LICENSE',
     install_requires=[ 'setuptools']
     )
