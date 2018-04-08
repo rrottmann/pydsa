@@ -127,6 +127,8 @@ def dsa_sign(q, p, g, x, message):
     >>> sig = dsa.dsa_sign(dsa_key["Q"], dsa_key["P"], dsa_key["G"], dsa_key["priv"], message)
     >>> print len(sig)
     2
+    >>> print dsa.dsa_verify(sig[0], sig[1], dsa_key["G"], dsa_key["P"], dsa_key["Q"], dsa_key["pub"], message)
+    True
 
     :param q: selected prime divisor
     :param p: computed prime modulus: (p-1) mod q = 0
@@ -138,19 +140,17 @@ def dsa_sign(q, p, g, x, message):
     :param message: message to sign
     :return: DSA signature (s1,s2) sometimes called (r,s)
     """
-    s = _random_s(1, q)
-    s1 = 0
-    s2 = 0
     while True:
+        s = _random_s(2, q-1)
+        s1 = 0
+        s2 = 0
         modexp = modexp_lr_k_ary(g, s, p)
         s1 = modexp % q
         if s1 == 0:
-            s = _random_s(1, q)
             continue
         s = modexp_lr_k_ary(s, q-2, q) * (message + x * s1)
         s2 = s % q
         if s2 == 0:
-            s = _random_s(1, q)
             continue
         return (int(s1), int(s2))
 
