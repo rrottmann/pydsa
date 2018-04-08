@@ -54,6 +54,14 @@ def _mod_inverse(a, b):
     Implementation using Extended Euclidean algorithm by Eric taken from:
     http://stackoverflow.com/questions/4798654/modular-multiplicative-inverse-function-in-python
 
+    >>> import dsa
+    >>> a = _mod_inverse(3, 11)
+    >>> print a
+    4
+    >>> a = _mod_inverse(1, 11)
+    >>> print a
+    1
+
     :param a: integer to calculate the mod inverse from
     :param b: the modulo to use
     :return: Modular multiplicative inverse
