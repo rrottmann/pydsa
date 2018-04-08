@@ -44,67 +44,6 @@ def _random_s(min, max):
             break
     return s
 
-
-def _mod_inverse(a, b):
-    """
-    Helper function that calculates the Modular multiplicative inverse
-
-    See https://en.wikipedia.org/wiki/Modular_multiplicative_inverse
-
-    Implementation using Extended Euclidean algorithm by Eric taken from:
-    http://stackoverflow.com/questions/4798654/modular-multiplicative-inverse-function-in-python
-
-    >>> import dsa
-    >>> a = _mod_inverse(3, 11)
-    >>> print a
-    4
-    >>> a = _mod_inverse(1, 11)
-    >>> print a
-    1
-
-    :param a: integer to calculate the mod inverse from
-    :param b: the modulo to use
-    :return: Modular multiplicative inverse
-    """
-    r = -1
-    B = b
-    A = a
-    eq_set = []
-    full_set = []
-    mod_set = []
-
-    # euclid's algorithm
-    while r != 1 and r != 0:
-        r = b % a
-        q = b // a
-        eq_set = [r, b, a, q * -1]
-        b = a
-        a = r
-        full_set.append(eq_set)
-
-    for i in range(0, 4):
-        mod_set.append(full_set[-1][i])
-
-    mod_set.insert(2, 1)
-    counter = 0
-
-    #extended euclid's algorithm
-    for i in range(1, len(full_set)):
-        if counter % 2 == 0:
-            mod_set[2] = full_set[-1 * (i + 1)][3] * mod_set[4] + mod_set[2]
-            mod_set[3] = full_set[-1 * (i + 1)][1]
-
-        elif counter % 2 != 0:
-            mod_set[4] = full_set[-1 * (i + 1)][3] * mod_set[2] + mod_set[4]
-            mod_set[1] = full_set[-1 * (i + 1)][1]
-
-        counter += 1
-
-    if mod_set[3] == B:
-        return mod_set[2] % B
-    return mod_set[4] % B
-
-
 def modexp_lr_k_ary(a, b, n, k=5):
     """
     Compute a ** b (mod n)
@@ -208,7 +147,7 @@ def dsa_sign(q, p, g, x, message):
         if s1 == 0:
             s = _random_s(1, q)
             continue
-        s = _mod_inverse(s, q) * (message + x * s1)
+        s = modexp_lr_k_ary(s, q-2, q) * (message + x * s1)
         s2 = s % q
         if s2 == 0:
             s = _random_s(1, q)
@@ -268,7 +207,7 @@ def dsa_verify(s1, s2, g, p, q, y, message):
         return False
     if not s2 < q:
         return False
-    w = _mod_inverse(s2, q)
+    w = modexp_lr_k_ary(s2, q-2, q)
     u1 = (message * w) % q
     u2 = (s1 * w) % q
     # v = (((g**u1)*(y**u2)) % p ) % q # correct formula but slooooow!
